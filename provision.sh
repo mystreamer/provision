@@ -4,12 +4,12 @@
 
 function installCowsay() {
 	echo "Installing cowsay..."
-	(su Administrator -c 'brew install cowsay')
+	(brew install cowsay)
 }
 
 function uninstallCowsay() {
 	echo "Uninstalling cowsay..."
-	(su Administrator -c 'brew uninstall cowsay')
+	(brew uninstall cowsay)
 }
 
 function executeCowsay() {
@@ -44,12 +44,12 @@ function start() {
 
 	# Install applications specified in the brewfile
 	echo "Installing brewfile specifications..."
-	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew install bundle)
+	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew install bundle && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/dylan/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)")
 
 	echo "Testing cowsay..."
-	# installCowsay
+	installCowsay
 	executeCowsay
-	# uninstallCowsay
+	uninstallCowsay
 
 	# Import sublime settings
 	echo "Provisioning sublime settings..."
