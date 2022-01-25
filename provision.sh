@@ -44,9 +44,11 @@ function start() {
 
 	(echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/dylan/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)")
 
+	(brew tap Homebrew/bundle)
+
 	# Install applications specified in the brewfile
 	echo "Installing brewfile specifications..."
-	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew install bundle)
+	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew bundle)
 
 	echo "Testing cowsay..."
 	installCowsay
