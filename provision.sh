@@ -19,7 +19,7 @@ function executeCowsay() {
 
 # -------------------------- HELPER FUNCTIONS -----------------------------
 function PutSymlink() {
-	if [ -d "$1" ]; then
+	if [ -d "$1" ] || [ -f "$1" ]; then
 		read "REPLY?A directory already exists for $2, do you want to overwrite it?"
 		echo
 		if [[ $REPLY =~ ^[Yy]$ ]]
