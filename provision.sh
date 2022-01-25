@@ -42,9 +42,11 @@ function start() {
 	echo "Installing homebrew..."
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+	(echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/dylan/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)")
+
 	# Install applications specified in the brewfile
 	echo "Installing brewfile specifications..."
-	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew install bundle && echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/dylan/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)")
+	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew install bundle)
 
 	echo "Testing cowsay..."
 	installCowsay
