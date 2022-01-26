@@ -36,30 +36,31 @@ function start() {
 
 	# Show hidden files
 	echo "Setting hidden files to show..."
-	# (defaults write com.apple.Finder AppleShowAllFiles true && killall Finder)
+	(defaults write com.apple.Finder AppleShowAllFiles true && killall Finder)
 
 	# - HOMEBREW INSTALLATION -
 	echo "Installing homebrew..."
-	# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 	# Install applications specified in the brewfile
 	echo "Installing brewfile specifications..."
 	(cp ~/Dropbox/Apps/Homebrew/Brewfile . && brew bundle)
 
 	echo "Testing cowsay..."
-	#installCowsay
-	#executeCowsay
-	#uninstallCowsay
+	installCowsay
+	executeCowsay
+	uninstallCowsay
 
 	# Import sublime settings
 	echo "Provisioning sublime settings..."
-	# (cd ~/Library/Application\ Support/Sublime\ Text/Packages/ && rm -r User && ln -s ~/Dropbox/Apps/Sublime/User)
+	(cd ~/Library/Application\ Support/Sublime\ Text/Packages/ && rm -r User && ln -s ~/Dropbox/Apps/Sublime/User)
 
 	# Installing OhMyZsh
 	echo "Installing Ohmyzsh..."
-	# (sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)")
+	(sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)")
 	
 	echo "Installing zsh plugins"
+	# The ZSH Autosuggestions Plugin
 	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
 	# Symlinking dotfiles
