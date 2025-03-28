@@ -53,6 +53,7 @@
         [ pkgs.vim
 	  pkgs.neofetch
 	  pkgs.lazygit
+	  pkgs.jdk23
         ];
 
       # Allow non-free software installs
