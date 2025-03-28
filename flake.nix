@@ -5,9 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
   let
     configuration = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -63,12 +65,41 @@
       '';
 
     };
+    homeconfig = {pkgs, ...}: {
+		# this is internal compatibility configuration 
+		# for home-manager, don't change this!
+		home.stateVersion = "23.05";
+		# Let home-manager install and manage itself.
+		programs.home-manager.enable = true;
+
+		programs.git = {
+		      enable = true;
+		      userName = "mystreamer";
+		      userEmail = "me@dylanmassey.ch";
+		      extraConfig = {
+			init.defaultBranch = "main";
+		      };
+		    };
+
+		home.packages = with pkgs; [];
+
+		home.sessionVariables = {
+		EDITOR = "vim";
+		};
+        };
   in
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."simple" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [ configuration 
+	   home-manager.darwinModules.home-manager  {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.verbose = true;
+                home-manager.users.dylan = homeconfig;
+            }
+	];
     };
   };
 }
