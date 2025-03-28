@@ -2,14 +2,29 @@
   description = "Dylan's macOS Developer VM Setup";
 
   inputs = {
+    # The base
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Responsible for management of dotfile type things.
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Homebrew (only responsible for managing homebrew itself, not the stuff it installs)
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    # Some declarative taps :)
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask }:
   let
     configuration = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -86,7 +101,28 @@
 		home.sessionVariables = {
 		EDITOR = "vim";
 		};
-        };
+    };
+    brewconfig = {
+	    # Install Homebrew under the default prefix
+            enable = true;
+
+            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+            enableRosetta = true;
+
+            # User owning the Homebrew prefix
+            user = "dylan";
+
+            # Optional: Declarative tap management
+            taps = {
+              "homebrew/homebrew-core" = homebrew-core;
+              "homebrew/homebrew-cask" = homebrew-cask;
+            };
+
+            # Optional: Enable fully-declarative tap management
+            #
+            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+            mutableTaps = false;
+    };
   in
   {
     # Build darwin flake using:
@@ -99,6 +135,9 @@
                 home-manager.verbose = true;
                 home-manager.users.dylan = homeconfig;
             }
+	   nix-homebrew.darwinModules.nix-homebrew {
+	        nix-homebrew = brewconfig;
+	    }
 	];
     };
   };
