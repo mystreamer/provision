@@ -33,6 +33,20 @@
 	home = "/Users/dylan";
       };
 
+      homebrew = {
+	  enable = true;
+	  onActivation.autoUpdate = true;
+	  onActivation.upgrade = true;
+	  # updates homebrew packages on activation,
+	  # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+	  casks = [
+	    # "alfred"
+	 ];
+          brews = [
+	    "ghcup"
+         ];
+      };
+
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
