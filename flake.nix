@@ -42,6 +42,7 @@
 	  casks = [
 	    # "alfred"
 	    "visual-studio-code"
+	    "bitwarden"
 	 ];
           brews = [
 	    "ghcup"
