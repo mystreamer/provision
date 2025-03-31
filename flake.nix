@@ -56,6 +56,8 @@
 	  pkgs.neofetch
 	  pkgs.lazygit
 	  pkgs.jdk23
+	  pkgs.ihp-new
+	  pkgs.direnv
         ];
 
       # Allow non-free software installs
