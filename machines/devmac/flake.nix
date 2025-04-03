@@ -1,5 +1,5 @@
 {
-  description = "Dylan's macOS Developer VM Setup";
+  description = "mstrmrs macOS Developer VM Setup";
 
   inputs = {
     # The base
