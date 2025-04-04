@@ -29,21 +29,21 @@
     configuration = { pkgs, ... }: {
       # Declare which user will be running nix
       users.users.dylan = {
-	name = "dylan";
-	home = "/Users/dylan";
+        name = "dylan";
+        home = "/Users/dylan";
       };
 
       homebrew = {
-	  enable = true;
-	  onActivation.autoUpdate = true;
-	  onActivation.upgrade = true;
-	  # updates homebrew packages on activation,
-	  # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
-	  casks = [
-	    # "alfred"
-	    "visual-studio-code"
-	    "bitwarden"
-	 ];
+        enable = true;
+        onActivation.autoUpdate = true;
+        onActivation.upgrade = true;
+      # updates homebrew packages on activation,
+      # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+      casks = [
+        # "alfred"
+        "visual-studio-code"
+        "bitwarden"
+      ];
           brews = [
 	    "ghcup"
          ];
@@ -53,11 +53,11 @@
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
         [ pkgs.vim
-	  pkgs.neofetch
-	  pkgs.lazygit
-	  pkgs.jdk23
-	  pkgs.ihp-new
-	  pkgs.direnv
+          pkgs.neofetch
+          pkgs.lazygit
+          pkgs.jdk23
+          pkgs.ihp-new
+          pkgs.direnv
         ];
 
       # Allow non-free software installs
@@ -81,13 +81,13 @@
       nixpkgs.hostPlatform = "aarch64-darwin";
 
       system.defaults.CustomUserPreferences = {
-	# Custom stuff goes here
+        # Custom stuff goes here
       };
 
       # Some system defaults
       system.defaults = {
-	finder.AppleShowAllExtensions = true;
-	finder.AppleShowAllFiles = true;
+        finder.AppleShowAllExtensions = true;
+        finder.AppleShowAllFiles = true;
       };
 
       # Running some custom commands / scripts
@@ -111,14 +111,14 @@
 		      userName = "mystreamer";
 		      userEmail = "me@dylanmassey.ch";
 		      extraConfig = {
-			init.defaultBranch = "main";
+            init.defaultBranch = "main";
 		      };
 		    };
 
 		home.packages = with pkgs; [];
 
 		home.sessionVariables = {
-		EDITOR = "vim";
+      EDITOR = "vim";
 		};
     };
     brewconfig = {
