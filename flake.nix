@@ -26,7 +26,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask }:
   let
-    configuration = { pkgs, ... }: {
+    configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
       users.users.dylan = {
         name = "dylan";
@@ -34,20 +34,20 @@
       };
 
       homebrew = {
-        enable = true;
-        onActivation.autoUpdate = true;
-        onActivation.upgrade = true;
-      # updates homebrew packages on activation,
-      # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
-      casks = [
-        # "alfred"
-        "visual-studio-code"
-        "bitwarden"
-      ];
-          brews = [
-	    "ghcup"
-         ];
-      };
+          enable = true;
+          onActivation.autoUpdate = true;
+          onActivation.upgrade = true;
+        # updates homebrew packages on activation,
+        # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
+        casks = [
+          # "alfred"
+          "visual-studio-code"
+          "bitwarden"
+        ];
+            brews = [
+        "ghcup"
+          ];
+        };
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
@@ -92,72 +92,92 @@
 
       # Running some custom commands / scripts
       system.activationScripts.postUserActivation.text = ''
-	    # Enable remoteLogin for SSH
+      # Enable remoteLogin for SSH
             sudo systemsetup -setremotelogin on
-	    # Following line should allow us to avoid a logout/login cycle
-	    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+      # Following line should allow us to avoid a logout/login cycle
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
-
     };
     homeconfig = {pkgs, ...}: {
-		# this is internal compatibility configuration 
-		# for home-manager, don't change this!
-		home.stateVersion = "23.05";
-		# Let home-manager install and manage itself.
-		programs.home-manager.enable = true;
+      # this is internal compatibility configuration 
+      # for home-manager, don't change this!
+      home.stateVersion = "23.05";
+      # Let home-manager install and manage itself.
+      programs.home-manager.enable = true;
 
-		programs.git = {
-		      enable = true;
-		      userName = "mystreamer";
-		      userEmail = "me@dylanmassey.ch";
-		      extraConfig = {
-            init.defaultBranch = "main";
-		      };
-		    };
+      programs.git = {
+            enable = true;
+            userName = "mystreamer";
+            userEmail = "me@dylanmassey.ch";
+            extraConfig = {
+              init.defaultBranch = "main";
+            };
+          };
 
-		home.packages = with pkgs; [];
+      home.packages = with pkgs; [];
 
-		home.sessionVariables = {
-      EDITOR = "vim";
-		};
+      home.sessionVariables = {
+        EDITOR = "vim";
+      };
     };
     brewconfig = {
-	    # Install Homebrew under the default prefix
-            enable = true;
+      # Install Homebrew under the default prefix
+      enable = true;
 
-            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
-            enableRosetta = true;
+      # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+      enableRosetta = true;
 
-            # User owning the Homebrew prefix
-            user = "dylan";
+      # User owning the Homebrew prefix
+      user = "dylan";
 
-            # Optional: Declarative tap management
-            taps = {
-              "homebrew/homebrew-core" = homebrew-core;
-              "homebrew/homebrew-cask" = homebrew-cask;
-            };
+      # Optional: Declarative tap management
+      taps = {
+        "homebrew/homebrew-core" = homebrew-core;
+        "homebrew/homebrew-cask" = homebrew-cask;
+      };
 
-            # Optional: Enable fully-declarative tap management
-            #
-            # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
-            mutableTaps = false;
+      # Optional: Enable fully-declarative tap management
+      #
+      # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+      mutableTaps = false;
     };
+    lib = nixpkgs.lib.extend (self: super: {
+        my = import ./lib { inherit inputs; lib = self; };
+    });
+    processConfigurations = lib.mapAttrs (n: v: v n);
+    darwinSystem = system: extraModules: hostName:
+      nix-darwin.lib.darwinSystem {
+          inherit system;
+          modules = [ configurationDarwin 
+                      home-manager.darwinModules.home-manager  {
+                        home-manager.useGlobalPkgs = true;
+                        home-manager.useUserPackages = true;
+                        home-manager.verbose = true;
+                        home-manager.users.dylan = homeconfig;
+            }
+          nix-homebrew.darwinModules.nix-homebrew {
+                nix-homebrew = brewconfig;
+            }
+        ] ++ extraModules;
+      };
+    nixosSystem = system: extraModules: hostName:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ({ config, ... }: lib.mkMerge [{
+              networking.hostName = hostName;
+            }])
+        ] ++ extraModules;
+      };
   in
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
-    darwinConfigurations."simple" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration 
-	   home-manager.darwinModules.home-manager  {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.verbose = true;
-                home-manager.users.dylan = homeconfig;
-            }
-	   nix-homebrew.darwinModules.nix-homebrew {
-	        nix-homebrew = brewconfig;
-	    }
-	];
+  darwinConfigurations = processConfigurations { 
+      devmac = darwinSystem "aarch64-darwin" [ ./machines/devmac/default.nix ];
+    };
+  nixosConfigurations = processConfigurations {
+      devnix = nixosSystem "aarch64-linux" [ ./machines/devnix/default.nix ];
     };
   };
 }
