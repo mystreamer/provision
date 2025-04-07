@@ -91,6 +91,8 @@
     cabal-install
     neofetch
     helix
+    nodejs
+    fzf
   ];
 
   services.xserver = {
