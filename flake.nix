@@ -44,8 +44,8 @@
           "visual-studio-code"
           "bitwarden"
         ];
-            brews = [
-        "ghcup"
+        brews = [
+              "ghcup"
           ];
         };
 
@@ -141,9 +141,12 @@
       # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
       mutableTaps = false;
     };
-    lib = nixpkgs.lib.extend (self: super: {
-        my = import ./lib { inherit inputs; lib = self; };
-    });
+
+    lib = nixpkgs.lib;
+    # lib = nixpkgs.lib.extend (self: super: {
+    #     my = import ./lib { inherit inputs; lib = self; };
+    # });
+
     processConfigurations = lib.mapAttrs (n: v: v n);
     darwinSystem = system: extraModules: hostName:
       nix-darwin.lib.darwinSystem {
@@ -161,9 +164,11 @@
         ] ++ extraModules;
       };
     nixosSystem = system: extraModules: hostName:
-      nixpkgs.lib.nixosSystem {
+      nixpkgs.lib.nixosSystem rec {
         inherit system;
+        # inherit inputs;
         modules = [
+          home-manager.nixosModules.home-manager
           ({ config, ... }: lib.mkMerge [{
               networking.hostName = hostName;
             }])
