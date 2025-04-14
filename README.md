@@ -11,7 +11,7 @@ This repo is intended for managing my flock of computers through Nix.
 If you have made changes to `flake.nix` and need a rebuild, use:
 ```
 nix flake update
-darwin-rebuild switch --flake .#simple
+darwin-rebuild switch --flake .#devmac
 ```
 
 ## nixOS VM (devnix)
