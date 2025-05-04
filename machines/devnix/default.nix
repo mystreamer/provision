@@ -93,7 +93,13 @@
     helix
     nodejs
     fzf
+    up
+    uv
+    vifm-full
   ];
+
+  # Needed to enable remote development using VSCode SSH-Remote Plugin
+  programs.nix-ld.enable = true;
 
   services.xserver = {
   	enable = true;
