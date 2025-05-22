@@ -8,6 +8,7 @@
         vim-slime
         fzf-vim
         dracula-vim
+        windsurf-vim
         ];
       settings = { ignorecase = true; };
       extraConfig = ''
