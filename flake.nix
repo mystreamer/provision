@@ -43,9 +43,13 @@
           # "alfred"
           "visual-studio-code"
           "bitwarden"
+	  # "ladybird"
         ];
         brews = [
               "ghcup"
+	      "llvm@17"
+	      "jflex"
+	      "tmux"
           ];
         };
 
@@ -80,6 +84,9 @@
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
 
+      # Set primary user
+      system.primaryUser = "dylan";
+
       system.defaults.CustomUserPreferences = {
         # Custom stuff goes here
       };
@@ -91,9 +98,9 @@
       };
 
       # Running some custom commands / scripts
-      system.activationScripts.postUserActivation.text = ''
+      system.activationScripts.postActivation.text = ''
       # Enable remoteLogin for SSH
-            sudo systemsetup -setremotelogin on
+      sudo systemsetup -setremotelogin on
       # Following line should allow us to avoid a logout/login cycle
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
       '';
