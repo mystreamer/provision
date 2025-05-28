@@ -14,6 +14,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Systemd mount dirs
+  systemd.tmpfiles.rules = [
+    "d /mnt 0755 root root -" # generally for ephemeral mounts
+    "d /media 0755 root root -"
+  ];
+
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -98,6 +104,10 @@
     vifm-full
   ];
 
+  environment.etc."inputrc".text = ''
+   set editing-mode vi
+  '';
+
   # Needed to enable remote development using VSCode SSH-Remote Plugin
   programs.nix-ld.enable = true;
 
@@ -132,7 +142,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
   home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {
       imports = [
@@ -140,6 +150,6 @@
       ];
 
       programs.home-manager.enable = true;
-      home.stateVersion = "23.11";
+      home.stateVersion = "25.05";
   };
 }
