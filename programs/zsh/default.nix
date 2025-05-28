@@ -2,15 +2,16 @@
   {
     programs.zsh = {
       enable = true;
+      autosuggestion.enable = true;
       oh-my-zsh = {
         enable = true;
         theme = "amuse";
         plugins = [
-          "zsh-autosuggestions"
           "git"
         ];
       } ;
       initContent = ''
+      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
       . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
       '';
     };   
