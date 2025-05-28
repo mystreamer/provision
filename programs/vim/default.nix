@@ -30,6 +30,9 @@
       set nobackup
       set nowritebackup
 
+      " Clipboard
+      set clipboard=unnamed
+
       " Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
       " delays and poor user experience
       set updatetime=300
@@ -46,6 +49,7 @@
       set rtp+=~/.vim/pack/XXX/start/LanguageClient-neovim
       let g:LanguageClient_serverCommands = {
         \ 'haskell': ['haskell-language-server-wrapper', '--lsp'],
+        \ 'gf' : ['~/.nix-profile/bin/gf-lsp'],
         \ }
       '';
     };   
