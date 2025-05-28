@@ -45,8 +45,8 @@
       " LanguageClient settings
       set rtp+=~/.vim/pack/XXX/start/LanguageClient-neovim
       let g:LanguageClient_serverCommands = {
-        'haskell': ['haskell-language-server-wrapper', '--lsp'],
-      }
+        \ 'haskell': ['haskell-language-server-wrapper', '--lsp'],
+        \ }
       '';
     };   
   }
