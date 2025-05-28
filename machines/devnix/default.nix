@@ -72,37 +72,12 @@
 
   services.openssh.enable = true;
   services.envfs.enable = true;
-  virtualisation.docker.enable = true;
-  users.extraGroups.docker.members = [ "dylan" ];
 
   # enable experimental features
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    # docker
-    git
-    gnumake
-    tmux
-    ncdu
-    lazygit
-    ghc
-    stack
-    cabal-install
-    neofetch
-    helix
-    nodejs
-    fzf
-    up
-    uv
-    vifm-full
-  ];
 
   environment.etc."inputrc".text = ''
    set editing-mode vi
@@ -144,12 +119,50 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
+  ### VIRTUALISATION ###
+  virtualisation.docker.enable = true;
+  users.extraGroups.docker.members = [ "dylan" ];
+
+  ### SYSTEM-APPS ###
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    git
+    gnumake
+    tmux
+    ncdu
+    lazygit
+    ghc
+    stack
+    cabal-install
+    neofetch
+    helix
+    nodejs
+    fzf
+    up
+    uv
+    ranger
+  ];
+
+  # set zsh as default shell
+  programs.zsh.enable = true;
+  users.users.dylan.shell = pkgs.zsh;
+
+  ### HOME MANAGER ###
   home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {
       imports = [
         ../../programs/vim
+        ../../programs/zsh
       ];
 
       programs.home-manager.enable = true;
       home.stateVersion = "25.05";
+
+      # add to path
+      home.sessionVariables = {
+        PATH = "$PATH:$HOME/.local/bin"; 
+      };
   };
 }
