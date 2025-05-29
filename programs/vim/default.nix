@@ -15,6 +15,11 @@
         ];
       settings = { ignorecase = true; };
       extraConfig = '' 
+      " oscyank config
+      nmap <leader>c <Plug>OSCYankOperator
+      nmap <leader>cc <leader>c_
+      vmap <leader>c <Plug>OSCYankVisual
+
       " general settings
       colorscheme dracula
       set hlsearch

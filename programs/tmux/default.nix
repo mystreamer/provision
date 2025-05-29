@@ -3,7 +3,7 @@
     programs.tmux = {
       enable = true;
       extraConfig = ''
-      set -s set-clipboard external
+      set -s set-clipboard on
       '';
     };   
   }
