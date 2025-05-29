@@ -158,6 +158,17 @@
         ../../programs/tmux
       ];
 
+
+      # git config (TODO: deduplicate with mac setup)
+      programs.git = {
+        enable = true;
+        userName = "mystreamer";
+        userEmail = "me@dylanmassey.ch";
+        extraConfig = {
+          init.defaultBranch = "main";
+        };
+      };
+
       programs.home-manager.enable = true;
       home.stateVersion = "25.05";
 
