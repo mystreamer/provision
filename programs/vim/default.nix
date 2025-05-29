@@ -22,6 +22,8 @@
 
       " general settings
       colorscheme dracula
+      set term=xterm-256color
+
       set hlsearch
       set bs=2
       set ai
@@ -37,7 +39,7 @@
       set nowritebackup
 
       " Clipboard
-      set clipboard=unnamed
+      " set clipboard=unnamed
 
       " Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
       " delays and poor user experience
