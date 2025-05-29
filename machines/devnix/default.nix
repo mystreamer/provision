@@ -146,6 +146,24 @@
     ranger
   ];
 
+  # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
+  # Overlays for nixpkgs
+  nixpkgs.overlays = [
+    (self: super:
+    {
+      # overlay, because of this issue: 
+      # https://github.com/phantasea/ranger/commit/52ae31fdac991808f0bb6af6187145fc60e32223
+      ranger = super.ranger.overrideAttrs (oldAttrs: rec {
+        src = super.fetchFromGitHub {
+          owner = "ranger";
+          repo = "ranger";
+          rev = "4031ee1564ab36fed1dfcb1c1e859a1d674ba007";
+          hash = "sha256-uMvo+5I5WCJGT5+XRS/NFClDGH4F59ogQJb+RYuraX4=";
+        };
+      });
+    })
+  ];
+
   # set zsh as default shell
   programs.zsh.enable = true;
   users.users.dylan.shell = pkgs.zsh;
