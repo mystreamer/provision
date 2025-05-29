@@ -11,13 +11,13 @@
         ];
       } ;
       initContent = 
-      let 
-        ranger_cmd = builtins.readFile .ranger.zsh;
-      in
-      ''
-      source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-      source  ${ranger_cmd}
-      '';
+        let 
+          ranger_cmd = builtins.readFile ./ranger.zsh;
+        in
+        ''
+        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        ${ranger_cmd}
+        '';
     };   
   }
