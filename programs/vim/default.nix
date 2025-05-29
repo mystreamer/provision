@@ -11,6 +11,7 @@
         dracula-vim
         windsurf-vim
         nerdtree
+        vim-oscyank
         ];
       settings = { ignorecase = true; };
       extraConfig = '' 
