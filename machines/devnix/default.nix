@@ -155,6 +155,7 @@
       imports = [
         ../../programs/vim
         ../../programs/zsh
+        ../../programs/tmux
       ];
 
       programs.home-manager.enable = true;
