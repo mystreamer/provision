@@ -68,8 +68,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # hardware.parallels.enable = true;
-
   services.openssh.enable = true;
   services.envfs.enable = true;
 
@@ -144,7 +142,13 @@
     up
     uv
     ranger
+    jdk21_headless
+    llvmPackages_17.libllvm
+    llvmPackages_17.libcxxClang
   ];
+
+  # make java available on JAVA_HOME
+  programs.java.enable = true;
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
   # Overlays for nixpkgs
