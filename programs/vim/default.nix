@@ -13,9 +13,18 @@
         windsurf-vim
         nerdtree
         vim-oscyank
+        vim-commentary
       ];
       settings = { ignorecase = true; };
       extraConfig = '' 
+        " tab hacking
+        " one: pressing the shift key shall be 4 REAL spaces
+        set shiftwidth=4 smarttab
+        " two: disable vim from inserting any tab characters at all
+        set expandtab
+        " three: make it easy to identify violations of the rule
+        set tabstop=8 softtabstop=0
+
         " oscyank config
         nmap <leader>c <Plug>OSCYankOperator
         nmap <leader>cc <leader>c_
