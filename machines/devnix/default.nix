@@ -133,6 +133,7 @@
     ncdu
     lazygit
     ghc
+    haskell-language-server
     stack
     cabal-install
     neofetch
@@ -142,9 +143,11 @@
     up
     uv
     ranger
-    jdk21_headless
-    llvmPackages_17.libllvm
-    llvmPackages_17.libcxxClang
+    # jdk21_headless
+    # llvmPackages_17.libllvm
+    # llvmPackages_17.libcxxClang
+    swi-prolog
+    silver-searcher # ag
   ];
 
   # make java available on JAVA_HOME
