@@ -183,7 +183,6 @@
         ../../programs/tmux
       ];
 
-
       # git config (TODO: deduplicate with mac setup)
       programs.git = {
         enable = true;
@@ -202,6 +201,10 @@
 
       programs.home-manager.enable = true;
       home.stateVersion = "25.05";
+
+      home.packages = with pkgs; [
+        devenv
+      ];
 
       # add to path
       home.sessionVariables = {
