@@ -137,12 +137,14 @@
     stack
     cabal-install
     neofetch
-    helix
+    # helix
     nodejs
     fzf
+    ripgrep
     up
     uv
     ranger
+    neovim
     # jdk21_headless
     # llvmPackages_17.libllvm
     # llvmPackages_17.libcxxClang
@@ -178,7 +180,7 @@
   ### HOME MANAGER ###
   home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {
       imports = [
-        ../../programs/vim
+        ../../programs/nvim
         ../../programs/zsh
         ../../programs/tmux
       ];

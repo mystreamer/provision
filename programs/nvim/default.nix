@@ -1,6 +1,6 @@
 { pkgs, config, lib, inputs, ... }:
 {
-  programs.vim = {
+  programs.neovim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [ 
         coc-nvim 
@@ -14,6 +14,8 @@
         nerdtree
         vim-oscyank
         vim-commentary
+        codecompanion-nvim
+        nvim-treesitter.withAllGrammars
       ];
       settings = { ignorecase = true; };
       extraConfig = '' 
@@ -110,6 +112,37 @@
 "          " call s:on_lsp_buffer_enabled only for languages that has the server registered.
 "          autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 "        augroup END
+
+        " codecompanion setup
+          lua << EOF
+          require("codecompanion").setup({
+            adapters = {
+              anthropic = function()
+                return require("codecompanion.adapters").extend("anthropic", {
+                  env = {
+                    api_key = "ANTHROPIC_API_KEY"
+                  },
+                  schema = {
+                    model = {
+                      default = "claude-3-5-sonnet-20241022",
+                    },
+                  },
+                })
+              end,
+            },
+            strategies = {
+              chat = {
+                adapter = "anthropic",
+              },
+              inline = {
+                adapter = "anthropic",
+              },
+            },
+            opts = {
+              log_level = "INFO",
+            }
+          })
+          EOF
       '';
     };   
   }

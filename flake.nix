@@ -56,7 +56,7 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.vim
+        [ pkgs.neovim
           pkgs.neofetch
           pkgs.lazygit
           pkgs.jdk23
@@ -124,7 +124,7 @@
       home.packages = with pkgs; [];
 
       home.sessionVariables = {
-        EDITOR = "vim";
+        EDITOR = "nvim";
       };
     };
     brewconfig = {
