@@ -17,8 +17,39 @@
         codecompanion-nvim
         nvim-treesitter.withAllGrammars
       ];
-      settings = { ignorecase = true; };
+      extraLuaConfig = ''
+        -- codecompanion setup
+        require("codecompanion").setup({
+          adapters = {
+            anthropic = function()
+              return require("codecompanion.adapters").extend("anthropic", {
+                env = {
+                  api_key = "ANTHROPIC_API_KEY"
+                },
+                schema = {
+                  model = {
+                    default = "claude-3-5-sonnet-20241022",
+                  },
+                },
+              })
+            end,
+          },
+          strategies = {
+            chat = {
+              adapter = "anthropic",
+            },
+            inline = {
+              adapter = "anthropic",
+            },
+          },
+          opts = {
+            log_level = "INFO",
+          }
+        })
+      '';
       extraConfig = '' 
+        " case-insensitive searching
+        set ignorecase
         " tab hacking
         " one: pressing the shift key shall be 4 REAL spaces
         set shiftwidth=4 smarttab
@@ -34,7 +65,7 @@
 
         " general settings
         colorscheme dracula
-        set term=xterm-256color
+        " set term=xterm-256color " should be set by default
 
         set hlsearch
         set bs=2
@@ -112,37 +143,6 @@
 "          " call s:on_lsp_buffer_enabled only for languages that has the server registered.
 "          autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 "        augroup END
-
-        " codecompanion setup
-          lua << EOF
-          require("codecompanion").setup({
-            adapters = {
-              anthropic = function()
-                return require("codecompanion.adapters").extend("anthropic", {
-                  env = {
-                    api_key = "ANTHROPIC_API_KEY"
-                  },
-                  schema = {
-                    model = {
-                      default = "claude-3-5-sonnet-20241022",
-                    },
-                  },
-                })
-              end,
-            },
-            strategies = {
-              chat = {
-                adapter = "anthropic",
-              },
-              inline = {
-                adapter = "anthropic",
-              },
-            },
-            opts = {
-              log_level = "INFO",
-            }
-          })
-          EOF
       '';
     };   
   }
