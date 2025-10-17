@@ -43,25 +43,30 @@
           # "alfred"
           "visual-studio-code"
           "bitwarden"
-	  # "ladybird"
+          # "ladybird"
         ];
         brews = [
-              "ghcup"
-	      "llvm@17"
-	      "jflex"
-	      "tmux"
+        # "ghcup"
+	      # "llvm@17"
+	      # "jflex"
+	      # "tmux"
+        "lazygit"
+        "ncdu"
+        "neofetch"
           ];
         };
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.neovim
-          pkgs.neofetch
-          pkgs.lazygit
-          pkgs.jdk23
-          pkgs.ihp-new
+        [ 
+          pkgs.neovim
+          # pkgs.neofetch
+          # pkgs.lazygit
+          # pkgs.jdk23
+          # pkgs.ihp-new
           pkgs.direnv
+          pkgs.devenv
         ];
 
       # Allow non-free software installs
@@ -187,6 +192,7 @@
     # $ darwin-rebuild build --flake .#simple
   darwinConfigurations = processConfigurations { 
       devmac = darwinSystem "aarch64-darwin" [ ./machines/devmac/default.nix ];
+      ephem  = darwinSystem "aarch64-darwin" [ ./machines/ephem/default.nix ];
     };
   nixosConfigurations = processConfigurations {
       devnix = nixosSystem "aarch64-linux" [ ./machines/devnix/default.nix ];
