@@ -18,9 +18,10 @@
         nvim-treesitter.withAllGrammars
       ];
       extraLuaConfig = ''
-        -- codecompanion setup
-        require("codecompanion").setup({
-          adapters = {
+      -- codecompanion setup
+      require("codecompanion").setup({
+        adapters = {
+          http = {
             anthropic = function()
               return require("codecompanion.adapters").extend("anthropic", {
                 env = {
@@ -34,18 +35,19 @@
               })
             end,
           },
-          strategies = {
-            chat = {
-              adapter = "anthropic",
-            },
-            inline = {
-              adapter = "anthropic",
-            },
+        },
+        strategies = {
+          chat = {
+            adapter = "anthropic",
           },
-          opts = {
-            log_level = "INFO",
-          }
-        })
+          inline = {
+            adapter = "anthropic",
+          },
+        },
+        opts = {
+          log_level = "INFO",
+        }
+      })
       '';
       extraConfig = '' 
         " case-insensitive searching
