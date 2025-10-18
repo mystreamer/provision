@@ -7,12 +7,18 @@ This repo is intended for managing my flock of computers through Nix.
 1. Ensure that CommandLineTools are installed.
 2. Install nix (the non-determinate systems distribution)
 3. Clone this repo and cd into it.
-4. After cloning the first time on your machine, run:`nix run nix-darwin -- switch --flake ".#devmac"`
+4. After cloning the first time on your machine, run:`sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ".#devmac"`
 If you have made changes to `flake.nix` and need a rebuild, use:
 ```
 nix flake update
 darwin-rebuild switch --flake .#devmac
 ```
+
+## macOS VM (ephem)
+
+Basic instructions, see above.
+
+`sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ".#ephem"`
 
 ## nixOS VM (devnix)
 
