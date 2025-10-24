@@ -11,6 +11,10 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+
+    # agenix
+    inputs.agenix.url = "github:ryantm/agenix";
+
     # Homebrew (only responsible for managing homebrew itself, not the stuff it installs)
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     # Some declarative taps :)
@@ -180,6 +184,7 @@
         inherit system;
         # inherit inputs;
         modules = [
+          agenix.nixosModules.default
           home-manager.nixosModules.home-manager
           ({ config, ... }: lib.mkMerge [{
               networking.hostName = hostName;
