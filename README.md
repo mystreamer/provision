@@ -14,11 +14,11 @@ nix flake update
 darwin-rebuild switch --flake .#devmac
 ```
 
-## macOS VM (ephem)
+## nixOS VM (ephem)
 
-Basic instructions, see above.
+<!-- Basic instructions, see above.
 
-`sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ".#ephem"`
+`sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ".#ephem"` -->
 
 ## nixOS VM (devnix)
 
@@ -57,3 +57,15 @@ And then rebuild your nix with `sudo nixos-rebuild switch
 4. Set `system.stateVersion` in `provision/machines/devnix/default.nix` ot the version in `/etc/nixos/configuration.nix`
 5. Run: `nix flake update`
 6. Then `sudo nixos-rebuild switch --flake ".#devnix"`
+
+## Bare-metal provisioning
+
+Use an nix-enabled machine to build the iso(-installer) image for the target-hardware.
+
+A simple example how this is done can be found [here](https://coffeeaddict.dev/thinkdifferent/).
+
+*Additional notes*:
++ If your nix-enabled machine (you're building from) does not have the same CPU-architecture, you may use github CI/CD to generate and download the image.
++ You might need to prepend `sudo` to most of the commands in the linked tutorial.
++ If you build the installer-image with flake enabled, you also must enable it when issuing the `nixos-install` command.
+    - This goes like this: `sudo nixos-install --option experimental-features "nix-command flakes"`

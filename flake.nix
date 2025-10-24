@@ -192,10 +192,10 @@
     # $ darwin-rebuild build --flake .#simple
   darwinConfigurations = processConfigurations { 
       devmac = darwinSystem "aarch64-darwin" [ ./machines/devmac/default.nix ];
-      ephem  = darwinSystem "aarch64-darwin" [ ./machines/ephem/default.nix ];
     };
   nixosConfigurations = processConfigurations {
       devnix = nixosSystem "aarch64-linux" [ ./machines/devnix/default.nix ];
+      ephem  = nixosSystem "aarch64-linux" [ ./machines/ephem/default.nix ];
     };
   };
 }
