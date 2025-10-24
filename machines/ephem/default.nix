@@ -86,11 +86,16 @@
 
   services.xserver = {
   	enable = true;
-  	displayManager.gdm.enable = true;
-  	desktopManager.gnome.enable = true;
+  	displayManager.sddm.enable = true;
+  	desktopManager.plasma6.enable = true;
   };
   services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11"
+  services.xrdp.defaultWindowManager = "startplasma-x11";
+
+  services.xserver.xkb = {
+    layout = "ch";
+    variant = "de_mac";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
