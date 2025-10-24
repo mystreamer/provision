@@ -11,7 +11,7 @@
   #   ];
 
   ### VIRTUALISATION ###
-  virtualization.vmware.guest.enable = true;
+  virtualisation.vmware.guest.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
