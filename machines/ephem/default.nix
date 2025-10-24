@@ -107,7 +107,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 3389 ];
+  networking.firewall.allowedTCPPorts = [ 3389 2342 3000];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -162,6 +162,9 @@
   # set zsh as default shell
   programs.zsh.enable = true;
   users.users.dylan.shell = pkgs.zsh;
+
+  age.identityPaths = [ "/home/dylan/.config/sops/age/keys.txt" ];
+
 
   ### HOME MANAGER ###
   home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {

@@ -9,7 +9,7 @@
   
   virtualisation.oci-containers.containers.photoprism = {
     image = "photoprism/photoprism:latest";
-    ports = [ "127.0.0.1:2342:2342" ];
+    ports = [ "0.0.0.0:2342:2342" ];
     volumes = [
       "/var/lib/photoprism/originals:/photoprism/originals"
       "/var/lib/photoprism/storage:/photoprism/storage"

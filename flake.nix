@@ -13,7 +13,7 @@
 
 
     # agenix
-    inputs.agenix.url = "github:ryantm/agenix";
+    agenix.url = "github:ryantm/agenix";
 
     # Homebrew (only responsible for managing homebrew itself, not the stuff it installs)
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
@@ -28,7 +28,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix }:
   let
     configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
