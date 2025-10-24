@@ -139,6 +139,7 @@
     ranger
     neovim
     silver-searcher # ag
+    gh
   ];
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
@@ -181,6 +182,7 @@
         userEmail = "me@dylanmassey.ch";
         extraConfig = {
           init.defaultBranch = "main";
+          url."git@github.com:".insteadOf = "https://github.com/";
         };
       };
 
