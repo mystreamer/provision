@@ -5,10 +5,13 @@
 { config, input, pkgs, lib, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  # imports =
+  #   [ # Include the results of the hardware scan.
+  #     ./hardware-configuration.nix
+  #   ];
+
+  ### VIRTUALISATION ###
+  virtualization.vmware.guest.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
