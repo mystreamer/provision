@@ -30,6 +30,9 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.nat.enable = true;
+  networking.nat.internalInterfaces = ["ve-+"];  # All container interfaces
+  networking.nat.externalInterface = "ens160";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -167,7 +170,7 @@
   programs.zsh.enable = true;
   users.users.dylan.shell = pkgs.zsh;
 
-  age.identityPaths = [ "/home/dylan/.config/sops/age/keys.txt" ];
+  # age.identityPaths = [ "/home/dylan/.config/sops/age/keys.txt" ];
 
 
   ### HOME MANAGER ###
