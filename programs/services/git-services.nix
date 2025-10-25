@@ -1,27 +1,15 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, serviceFlakes, ... }:
 
 let
-  mkService = name: cfg: let
-    flake = if cfg ? path then
-      builtins.getFlake "path:${cfg.path}"
-    else
-      let
-        repo = builtins.fetchGit { url = cfg.repo; ref = cfg.ref; };
-      in builtins.getFlake "git+file://${repo}";
-    
-    # Merge the flake module with container-specific networking
-    containerConfig = { config, pkgs, ... }: {
-      imports = [ flake.nixosModules.default ];
-      
-      # Critical: Set the default gateway to the host
-      networking.defaultGateway = {
-        address = "192.168.100.1";
-        interface = "eth0";
-      };
-      networking.useNetworkd = lib.mkForce false;
-      networking.useDHCP = false;
+  mkService = name: cfg: flake: {
+
+    age.secrets.openai-api-key = {
+      file = ../../secrets/openaiApiKey.age;
+      mode = "0440";
+      owner = "root";
+      group = "root";
     };
-  in {
+
     containers.${name} = {
       autoStart = true;
       privateNetwork = true;
@@ -32,33 +20,45 @@ let
         hostPort = cfg.port;
         protocol = "tcp";
       }];
+            # Bind mount the secret into the container
+      bindMounts = {
+        "/run/secrets/openai-api-key" = {
+          hostPath = config.age.secrets.openai-api-key.path;
+          isReadOnly = true;
+        };
+      };
       
-      config = containerConfig;
+      config = { config, pkgs, ... }: {
+        imports = [ flake.nixosModules.default ];
+
+        # Make the API key available as an environment variable
+        systemd.services.${name} = {
+          environment = {
+            OPENAI_API_KEY_FILE = "/run/secrets/openai-api-key";
+          };
+          # Or if the service needs it directly as env var:
+          serviceConfig.EnvironmentFile = "/run/secrets/openai-api-key";
+        };
+        
+        networking.defaultGateway = {
+          address = "192.168.100.1";
+          interface = "eth0";
+        };
+        networking.useNetworkd = lib.mkForce false;
+        networking.useDHCP = false;
+      };
     };
   };
   
   services = {
     quicktoc = {
-      path = "git@github.com:mystreamer/quick-toc.git";
       port = 8055;
       index = 0;
     };
   };
-  
-in {
-  config = lib.mkMerge [
-    (lib.mkMerge (lib.mapAttrsToList mkService services))
-    
-    {
-      networking.nat = {
-        enable = true;
-        internalInterfaces = [ "ve-+" ];
-        externalInterface = "enp0s5";
-      };
-      networking.firewall = {
-        trustedInterfaces = [ "ve-+" ];
-        allowedTCPPorts = [ 8055 ];
-      };
-    }
+in
+{
+  imports = [
+    (mkService "quicktoc" services.quicktoc serviceFlakes.quicktoc)
   ];
 }

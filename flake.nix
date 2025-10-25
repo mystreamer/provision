@@ -26,9 +26,15 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    # personals
+    quick-toc = {
+      url = "github:mystreamer/quick-toc";
+      # or for specific branch: url = "github:mystreamer/quick-toc/main";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc }:
   let
     configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -184,6 +190,13 @@
         inherit system;
         # inherit inputs;
         modules = [
+          {
+              # Pass the flake as a special arg
+              _module.args.serviceFlakes = {
+                quicktoc = quick-toc;
+          };
+          }
+          { environment.systemPackages = [ agenix.packages.${system}.default ];}
           agenix.nixosModules.default
           home-manager.nixosModules.home-manager
           ({ config, ... }: lib.mkMerge [{

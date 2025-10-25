@@ -104,11 +104,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1761350490,
-        "narHash": "sha256-p+5dW/gvI0verfAxf/RtyWgrsvH3yUWssPifxQ5AVxs=",
+        "lastModified": 1761357261,
+        "narHash": "sha256-ujRfowzx3lKYD/QihtI7qwOwfGd/klLHdExxlN7Xfco=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "03446c1dc5cc6317229f62d20cd010c13b1743a7",
+        "rev": "d8ddfb6cfeea21380c16972c03f8e98535b80558",
         "type": "github"
       },
       "original": {
@@ -120,11 +120,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1761350619,
-        "narHash": "sha256-lAnjFwWYq42NIqdHYAUDWxLxfKovcLwlcO74fVwE+os=",
+        "lastModified": 1761359631,
+        "narHash": "sha256-PzxT/45Oe+/vtsIjhWdtv9D1rJwmRcOWWKxAkEiOVLU=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "972563da9aae4d6638943919020901d8b2ed826f",
+        "rev": "e659ea7adbea129188fbe4b58bb9c59052adf7b5",
         "type": "github"
       },
       "original": {
@@ -204,6 +204,40 @@
         "type": "github"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1761114652,
+        "narHash": "sha256-f/QCJM/YhrV/lavyCVz8iU3rlZun6d+dAiC3H+CDle4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "01f116e4df6a15f4ccdffb1bcd41096869fb385c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "quick-toc": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1761355819,
+        "narHash": "sha256-UmLgVG51ED4lZTnRLGvJ0mwTzhXIPaM2CPgUCQR53mQ=",
+        "owner": "mystreamer",
+        "repo": "quick-toc",
+        "rev": "c8e9ec2853196525fc8e3a8b0e10b418982a8378",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mystreamer",
+        "repo": "quick-toc",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -212,7 +246,8 @@
         "homebrew-core": "homebrew-core",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "quick-toc": "quick-toc"
       }
     },
     "systems": {
