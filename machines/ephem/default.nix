@@ -146,6 +146,7 @@
     neovim
     silver-searcher # ag
     gh
+    cloudflared
   ];
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
@@ -172,6 +173,25 @@
 
   # age.identityPaths = [ "/home/dylan/.config/sops/age/keys.txt" ];
 
+  # Enable cloudflare tunnel
+  age.secrets.cloudflared-creds = {
+      file = ../../secrets/cloudflaredCreds.age;
+      mode = "0440";
+      owner = "root";
+      group = "root";
+  };
+  services.cloudflared = {
+    enable = true;
+    tunnels = {
+      "6299e448-c9b3-4f45-b747-cc06da1529ea" = {
+        credentialsFile = "${config.age.secrets.cloudflared-creds.path}";
+        ingress = {
+            "quicktoc.mystreamer.cx" = "http://192.168.100.1:8055";
+        };
+        default = "http_status:404";
+      };
+    };
+  };
 
   ### HOME MANAGER ###
   home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {
