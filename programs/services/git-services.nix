@@ -20,7 +20,8 @@ let
         hostPort = cfg.port;
         protocol = "tcp";
       }];
-            # Bind mount the secret into the container
+      
+      # Bind mount the secret into the container
       bindMounts = {
         "/run/secrets/openai-api-key" = {
           hostPath = config.age.secrets.openai-api-key.path;
@@ -32,13 +33,9 @@ let
         imports = [ flake.nixosModules.default ];
 
         # Make the API key available as an environment variable
-        systemd.services.${name} = {
-          environment = {
+        systemd.services.${name}.environment = {
             OPENAI_API_KEY_FILE = "/run/secrets/openai-api-key";
           };
-          # Or if the service needs it directly as env var:
-          serviceConfig.EnvironmentFile = "/run/secrets/openai-api-key";
-        };
         
         networking.defaultGateway = {
           address = "192.168.100.1";
@@ -55,10 +52,31 @@ let
       port = 8055;
       index = 0;
     };
+    recipe-manager = {
+      port = 8045;
+      index = 10;
+    };
   };
+
+  # Generate NAT forwarding rules from services config
+  natForwardPorts = lib.mapAttrsToList (name: cfg: {
+    sourcePort = cfg.port;
+    destination = "192.168.100.${toString (10 + cfg.index)}:${toString cfg.port}";
+    proto = "tcp";
+  }) services;
+
 in
 {
   imports = [
     (mkService "quicktoc" services.quicktoc serviceFlakes.quicktoc)
+    (mkService "yummie" services.recipe-manager serviceFlakes.yummie)
   ];
+
+  networking.nat = {
+    enable = true;
+    internalInterfaces = ["ve-+"];
+    externalInterface = "ens160";
+    forwardPorts = natForwardPorts;
+  };
+
 }

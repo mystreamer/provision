@@ -32,9 +32,13 @@
       url = "github:mystreamer/quick-toc";
       # or for specific branch: url = "github:mystreamer/quick-toc/main";
     };
+    yummie-recipe-manager = {
+      url = "git+ssh://git@github.com/mystreamer/yummie-recipe-manager.git";
+    };
+    
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc, yummie-recipe-manager }:
   let
     configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -194,6 +198,7 @@
               # Pass the flake as a special arg
               _module.args.serviceFlakes = {
                 quicktoc = quick-toc;
+                yummie = yummie-recipe-manager;
           };
           }
           { environment.systemPackages = [ agenix.packages.${system}.default ];}
