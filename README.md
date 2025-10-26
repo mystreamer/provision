@@ -20,11 +20,13 @@ darwin-rebuild switch --flake .#devmac
 
 `sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ".#ephem"` -->
 
+Ephem is a VMWare Fusion VM. The same instructions as for **devnix** will apply though. Just the machine name has to be changed.
+
 ## nixOS VM (devnix)
 
 ### Initial steps
 
-After starting the nixOS installer through an ISO found [here](https://nixos.org/download/#). Choose the version with the graphical installer.
+Devnix is a parallels guest VM. After starting the nixOS installer through an ISO found [here](https://nixos.org/download/#). Choose the version with the graphical installer.
 
 <!-- Change keyboard mapping if necessary:
 
@@ -69,3 +71,13 @@ A simple example how this is done can be found [here](https://coffeeaddict.dev/t
 + You might need to prepend `sudo` to most of the commands in the linked tutorial.
 + If you build the installer-image with flake enabled, you also must enable it when issuing the `nixos-install` command.
     - This goes like this: `sudo nixos-install --option experimental-features "nix-command flakes"`
+
+## Adding your own service
+
+Add the repo of the service to `flake.nix`.
+
+Navigate to `programs/service/git-services.nix` and mkService it. Also make sure that you have the ports correctly set and each of the services has their own unique index (since that will be used to generate the NAT IP-addresses).
+
+## Tipps
+
+If github rate-limits you, generate a personal access token and set it with: `export NIX_CONFIG="access-tokens = github.com=..."`
