@@ -78,6 +78,7 @@
   nix = {
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.trusted-users = [ "root" "dylan" ];
   };
 
   environment.etc."inputrc".text = ''
