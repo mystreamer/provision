@@ -32,10 +32,10 @@ let
       config = { config, pkgs, ... }: {
         imports = [ flake.nixosModules.default ];
 
-        # Make the API key available as an environment variable
-        systemd.services.${name}.environment = {
-            OPENAI_API_KEY_FILE = "/run/secrets/openai-api-key";
-          };
+        # Make the API key available as a system-wide environment variable
+        environment.variables = {
+          OPENAI_API_KEY_FILE = "/run/secrets/openai-api-key";
+        };
         
         networking.defaultGateway = {
           address = "192.168.100.1";
