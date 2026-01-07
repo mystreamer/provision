@@ -91,8 +91,8 @@
 
   services.xserver = {
   	enable = true;
-  	displayManager.gdm.enable = true;
-  	desktopManager.gnome.enable = true;
+  	displayManager.sddm.enable = true;
+  	desktopManager.plasma6.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -155,6 +155,7 @@
     # llvmPackages_17.libcxxClang
     swi-prolog
     silver-searcher # ag
+    claude-code
   ];
 
   # make java available on JAVA_HOME
