@@ -4,17 +4,17 @@
   inputs = {
     # The base
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
+  
     # Responsible for management of dotfile type things.
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-
     # agenix
     agenix.url = "github:ryantm/agenix";
 
+    # Nix darwin
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     # Homebrew (only responsible for managing homebrew itself, not the stuff it installs)
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     # Some declarative taps :)

@@ -79,6 +79,7 @@
     package = pkgs.nix;
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" "dylan" ];
+    settings.connect-timeout = 30;
   };
 
   environment.etc."inputrc".text = ''
