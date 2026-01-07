@@ -23,7 +23,6 @@
       "/var/lib/lyrion/music:/music:ro"
       "/var/lib/lyrion/playlists:/playlist:rw"
       "/etc/localtime:/etc/localtime:ro"
-      "/etc/timezone:/etc/timezone:ro"
     ];
   };
 }
