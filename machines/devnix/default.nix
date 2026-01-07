@@ -94,6 +94,8 @@
   	displayManager.sddm.enable = true;
   	desktopManager.plasma6.enable = true;
   };
+  services.xrdp.enable = true;
+  services.xrdp.defaultWindowManager = "startplasma-x11";
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -109,7 +111,7 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 3389 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
