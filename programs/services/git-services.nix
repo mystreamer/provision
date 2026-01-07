@@ -36,6 +36,13 @@ let
         environment.variables = {
           OPENAI_API_KEY_FILE = "/run/secrets/openai-api-key";
         };
+
+        # Override service config to add EnvironmentFile
+        systemd.services.${name} = {
+          serviceConfig = {
+            EnvironmentFile = lib.mkForce "/run/secrets/openai-api-key";
+          };
+        };
         
         networking.defaultGateway = {
           address = "192.168.100.1";
