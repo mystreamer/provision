@@ -24,5 +24,9 @@
       "/var/lib/lyrion/playlists:/playlist:rw"
       "/etc/localtime:/etc/localtime:ro"
     ];
+    environment = {
+      TZ = "Europe/Zurich";
+      EXTRA_ARGS = "--advertiseaddr=192.168.1.110";
+    };
   };
 }
