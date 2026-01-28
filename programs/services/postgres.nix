@@ -15,18 +15,13 @@
     ];
     volumes = [
       "/var/lib/postgres/data:/var/lib/postgresql/data:rw"
+      "${config.age.secrets.postgresCreds.path}:/run/secrets/postgresCreds:ro"
     ];
     environment = {
       POSTGRES_PASSWORD_FILE = "/run/secrets/postgresCreds";
       POSTGRES_DB = "postgres";
       PGDATA = "/var/lib/postgresql/data";
       TZ = "Europe/Zurich";
-    };
-    bindMounts = {
-      "/run/secrets/postgresCreds" = {
-        hostPath = config.age.secrets.postgresCreds.path;
-        isReadOnly = true;
-      };
     };
   };
 }
