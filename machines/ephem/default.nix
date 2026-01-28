@@ -180,6 +180,13 @@
       owner = "root";
       group = "root";
   };
+  
+  age.secrets.postgresCreds = {
+      file = ../../secrets/postgresCreds.age;
+      mode = "0440";
+      owner = "root";
+      group = "root";
+  };
   services.cloudflared = {
     enable = true;
     tunnels = {
