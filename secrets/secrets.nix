@@ -9,4 +9,5 @@ in
   "photoprismEnv.age".publicKeys = allKeys;
   "openaiApiKey.age".publicKeys = allKeys;
   "cloudflaredCreds.age".publicKeys = allKeys;
+  "postgresCreds.age".publicKeys = allKeys;
 }

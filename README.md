@@ -78,6 +78,18 @@ Add the repo of the service to `flake.nix`.
 
 Navigate to `programs/service/git-services.nix` and mkService it. Also make sure that you have the ports correctly set and each of the services has their own unique index (since that will be used to generate the NAT IP-addresses).
 
+## Adding, using and removing secrets using agenix
+
+Run the encryptor:
+```
+agenix -e secrets/myNewPassword.age
+```
+
+and paste your desired credentials inside the file, then save.
+
+Add the new `.age` inside `secrets/secrets.nix`.
+
+
 ## Tipps
 
 If github rate-limits you, generate a personal access token and set it with: `export NIX_CONFIG="access-tokens = github.com=..."`

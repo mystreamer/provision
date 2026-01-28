@@ -5,5 +5,6 @@
     ./forgejo.nix
     ./git-services.nix
     ./lyrion.nix
+    ./postgres.nix
   ];
 }
