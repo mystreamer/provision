@@ -17,7 +17,7 @@
         codecompanion-nvim
         nvim-treesitter.withAllGrammars
       ];
-      extraLuaConfig = ''
+      initLua = ''
       -- codecompanion setup
       require("codecompanion").setup({
         adapters = {
