@@ -145,6 +145,7 @@
     silver-searcher # ag
     gh
     cloudflared
+    mosh
   ];
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
