@@ -81,7 +81,10 @@
   # enable experimental features
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "dylan" ];
+    };
   };
 
   environment.etc."inputrc".text = ''
