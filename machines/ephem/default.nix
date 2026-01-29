@@ -112,7 +112,7 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 3389 2342 3000 8045 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
@@ -186,6 +186,7 @@
       owner = "root";
       group = "root";
   };
+
   services.cloudflared = {
     enable = true;
     tunnels = {
