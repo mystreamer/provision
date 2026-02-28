@@ -88,6 +88,10 @@
 
   # Needed to enable remote development using VSCode SSH-Remote Plugin
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+      stdenv.cc.cc
+      zlib
+  ];
 
   services.xserver = {
   	enable = true;
