@@ -153,6 +153,7 @@
     gh
     cloudflared
     mosh
+    claude-code
   ];
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
