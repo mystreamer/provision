@@ -144,7 +144,7 @@
     tmux
     ncdu
     lazygit
-    neofetch
+    fastfetch
     fzf
     uv
     ranger
