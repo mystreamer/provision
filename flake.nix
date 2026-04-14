@@ -66,7 +66,7 @@
 	      # "tmux"
         "lazygit"
         "ncdu"
-        "neofetch"
+        "fastfetch"
           ];
         };
 

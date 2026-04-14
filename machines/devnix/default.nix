@@ -147,7 +147,7 @@
     haskell-language-server
     stack
     cabal-install
-    neofetch
+    fastfetch
     # helix
     nodejs
     fzf
