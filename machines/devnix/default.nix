@@ -93,11 +93,9 @@
       zlib
   ];
 
-  services.xserver = {
-  	enable = true;
-  	displayManager.sddm.enable = true;
-  	desktopManager.plasma6.enable = true;
-  };
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "startplasma-x11";
 
@@ -200,9 +198,9 @@
       # git config (TODO: deduplicate with mac setup)
       programs.git = {
         enable = true;
-        userName = "mystreamer";
-        userEmail = "me@dylanmassey.ch";
-        extraConfig = {
+        settings = {
+          user.name = "mystreamer";
+          user.email = "me@dylanmassey.ch";
           init.defaultBranch = "main";
         };
       };
@@ -214,7 +212,7 @@
       };
 
       programs.home-manager.enable = true;
-      home.stateVersion = "25.05";
+      home.stateVersion = "26.05";
 
       home.packages = with pkgs; [
         devenv
