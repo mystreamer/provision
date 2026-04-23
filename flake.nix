@@ -36,11 +36,9 @@
       url = "git+ssh://git@github.com/mystreamer/yummie-recipe-manager.git";
     };
 
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
-
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc, yummie-recipe-manager, vscode-server }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc, yummie-recipe-manager }:
   let
     configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -205,8 +203,6 @@
           }
           { environment.systemPackages = [ agenix.packages.${system}.default ];}
           agenix.nixosModules.default
-          vscode-server.nixosModules.default
-          ({ ... }: { services.vscode-server.enable = true; })
           home-manager.nixosModules.home-manager
           ({ config, ... }: lib.mkMerge [{
               networking.hostName = hostName;
