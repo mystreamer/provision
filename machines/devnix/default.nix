@@ -154,6 +154,7 @@
     uv
     ranger
     neovim
+    mutagen
     # jdk21_headless
     # llvmPackages_17.libllvm
     # llvmPackages_17.libcxxClang
