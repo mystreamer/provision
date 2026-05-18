@@ -25,6 +25,10 @@
     "d /media 0755 root root -"
   ];
 
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=10s
+  '';
+
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -37,6 +41,8 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  networking.resolvconf.useLocalResolver = false;
 
   # Raise inotify limits for VSCode Remote, direnv/devenv, and Claude Code.
   boot.kernel.sysctl = {
