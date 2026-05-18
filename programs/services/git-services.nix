@@ -75,7 +75,7 @@ let
 in
 {
   imports = [
-    (mkService "quicktoc" services.quicktoc serviceFlakes.quicktoc)
+    # (mkService "quicktoc" services.quicktoc serviceFlakes.quicktoc)
     # (mkService "yummie" services.recipe-manager serviceFlakes.yummie)
   ];
 
