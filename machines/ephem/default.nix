@@ -156,6 +156,7 @@
     uv
     ranger
     neovim
+    mutagen
     silver-searcher # ag
     gh
     cloudflared
