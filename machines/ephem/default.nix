@@ -25,9 +25,7 @@
     "d /media 0755 root root -"
   ];
 
-  systemd.extraConfig = ''
-    DefaultTimeoutStopSec=10s
-  '';
+  systemd.settings.Manager.DefaultTimeoutStopSec = "10s";
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
