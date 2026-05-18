@@ -2,12 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, input, pkgs, lib, ... }:
+{ config, input, pkgs, lib, vscode-server, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      vscode-server.nixosModules.default
     ];
 
   # Bootloader.
@@ -32,6 +33,13 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Raise inotify limits for VSCode Remote, direnv/devenv, and Claude Code.
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 1048576;
+    "fs.inotify.max_user_instances" = 1024;
+    "fs.inotify.max_queued_events" = 65536;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -73,6 +81,7 @@
 
   services.openssh.enable = true;
   services.envfs.enable = true;
+  services.vscode-server.enable = true;
 
   # enable experimental features
   nix = {

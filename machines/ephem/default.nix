@@ -37,6 +37,13 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Raise inotify limits for VSCode Remote, direnv/devenv, and Claude Code.
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 1048576;
+    "fs.inotify.max_user_instances" = 1024;
+    "fs.inotify.max_queued_events" = 65536;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
 
