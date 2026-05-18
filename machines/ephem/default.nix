@@ -84,6 +84,7 @@
 
   services.openssh.enable = true;
   services.envfs.enable = true;
+  services.vscode-server.enable = true;
 
   # enable experimental features
   nix = {

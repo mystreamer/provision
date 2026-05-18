@@ -12,6 +12,9 @@
     # agenix
     agenix.url = "github:ryantm/agenix";
 
+    # VS Code Server support on NixOS
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+
     # Nix darwin
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +41,7 @@
 
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, quick-toc, yummie-recipe-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, vscode-server, quick-toc, yummie-recipe-manager }:
   let
     configurationDarwin = { pkgs, ... }: {
       # Declare which user will be running nix
@@ -193,6 +196,9 @@
       nixpkgs.lib.nixosSystem rec {
         inherit system;
         # inherit inputs;
+        specialArgs = {
+          inherit vscode-server;
+        };
         modules = [
           {
               # Pass the flake as a special arg
