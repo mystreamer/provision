@@ -76,7 +76,7 @@ in
 {
   imports = [
     (mkService "quicktoc" services.quicktoc serviceFlakes.quicktoc)
-    (mkService "yummie" services.recipe-manager serviceFlakes.yummie)
+    # (mkService "yummie" services.recipe-manager serviceFlakes.yummie)
   ];
 
   networking.nat = {

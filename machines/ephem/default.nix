@@ -81,7 +81,12 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    problems.handlers = {
+      flet.broken = "warn";
+    };
+  };
 
   services.openssh.enable = true;
   services.envfs.enable = true;
