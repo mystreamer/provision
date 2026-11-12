@@ -2,119 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, input, pkgs, lib, vscode-server, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      vscode-server.nixosModules.default
+      ../../modules/nixos-base.nix
       ../../programs/services
     ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Enable (nixos-container) support
-  boot.enableContainers = true;
-
-  # Systemd mount dirs
-  systemd.tmpfiles.rules = [
-    "d /mnt 0755 root root -" # generally for ephemeral mounts
-    "d /media 0755 root root -"
-  ];
-
-  systemd.settings.Manager.DefaultTimeoutStopSec = "10s";
-
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-  # networking.nat.enable = true;
-  # networking.nat.internalInterfaces = ["ve-+"];  # All container interfaces
-  # networking.nat.externalInterface = "ens160";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
-  networking.resolvconf.useLocalResolver = false;
-
-  # Raise inotify limits for VSCode Remote, direnv/devenv, and Claude Code.
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 1048576;
-    "fs.inotify.max_user_instances" = 1024;
-    "fs.inotify.max_queued_events" = 65536;
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Stockholm";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "de_CH.UTF-8";
-    LC_IDENTIFICATION = "de_CH.UTF-8";
-    LC_MEASUREMENT = "de_CH.UTF-8";
-    LC_MONETARY = "de_CH.UTF-8";
-    LC_NAME = "de_CH.UTF-8";
-    LC_NUMERIC = "de_CH.UTF-8";
-    LC_PAPER = "de_CH.UTF-8";
-    LC_TELEPHONE = "de_CH.UTF-8";
-    LC_TIME = "de_CH.UTF-8";
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "ch";
-    variant = "de_mac";
-  };
-
-  # Configure console keymap
-  console.keyMap = "sg";
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.dylan = {
-    isNormalUser = true;
-    description = "dylan";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
-  };
-
-  # Allow unfree packages
-  nixpkgs.config = {
-    allowUnfree = true;
-    problems.handlers = {
-      flet.broken = "warn";
-    };
-  };
-
-  services.openssh.enable = true;
-  services.envfs.enable = true;
-  services.vscode-server.enable = true;
-
-  # enable experimental features
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "dylan" ];
-    };
-  };
-
-  environment.etc."inputrc".text = ''
-   set editing-mode vi
-  '';
-
-  # Needed to enable remote development using VSCode SSH-Remote Plugin
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-      stdenv.cc.cc
-      zlib
-  ];
 
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
@@ -149,53 +45,16 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  ### VIRTUALISATION ###
-  virtualisation.docker.enable = true;
-  users.extraGroups.docker.members = [ "dylan" ];
-
   ### SYSTEM-APPS ###
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
-    git
-    tmux
-    ncdu
-    lazygit
-    fastfetch
-    fzf
-    uv
-    ranger
-    neovim
-    mutagen
-    silver-searcher # ag
     gh
     cloudflared
     mosh
-    claude-code
   ];
 
-  # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
-  # Overlays for nixpkgs
-  nixpkgs.overlays = [
-    (self: super:
-    {
-      # overlay, because of this issue: 
-      # https://github.com/phantasea/ranger/commit/52ae31fdac991808f0bb6af6187145fc60e32223
-      ranger = super.ranger.overrideAttrs (oldAttrs: rec {
-        src = super.fetchFromGitHub {
-          owner = "ranger";
-          repo = "ranger";
-          rev = "4031ee1564ab36fed1dfcb1c1e859a1d674ba007";
-          hash = "sha256-uMvo+5I5WCJGT5+XRS/NFClDGH4F59ogQJb+RYuraX4=";
-        };
-      });
-    })
-  ];
-
-  # set zsh as default shell
-  programs.zsh.enable = true;
-  users.users.dylan.shell = pkgs.zsh;
+  nixpkgs.config.problems.handlers = {
+    flet.broken = "warn";
+  };
 
   # age.identityPaths = [ "/home/dylan/.config/sops/age/keys.txt" ];
 
