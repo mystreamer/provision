@@ -1,9 +1,9 @@
-{ pkgs, vscode-server, llm-agents, ... }:
+{ pkgs, inputs, ... }:
 
 # Config shared by all NixOS hosts (devnix, ephem).
 {
   imports = [
-    vscode-server.nixosModules.default
+    inputs.vscode-server.nixosModules.default
   ];
 
   # Bootloader.
@@ -126,7 +126,7 @@
     neovim
     mutagen
     silver-searcher # ag
-  ] ++ (with llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+  ] ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     claude-code
     orca
   ]);

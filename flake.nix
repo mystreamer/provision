@@ -45,7 +45,7 @@
 
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, vscode-server, llm-agents, quick-toc, yummie-recipe-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, agenix, quick-toc, yummie-recipe-manager, ... }:
   let
     lib = nixpkgs.lib;
     # lib = nixpkgs.lib.extend (self: super: {
@@ -62,10 +62,7 @@
     nixosSystem = system: extraModules: hostName:
       nixpkgs.lib.nixosSystem rec {
         inherit system;
-        # inherit inputs;
-        specialArgs = {
-          inherit vscode-server llm-agents;
-        };
+        specialArgs = { inherit inputs; };
         modules = [
           {
               # Pass the flake as a special arg
