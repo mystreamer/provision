@@ -7,4 +7,6 @@
     ./lyrion.nix
     ./postgres.nix
   ];
+
+  virtualisation.oci-containers.backend = "docker";
 }

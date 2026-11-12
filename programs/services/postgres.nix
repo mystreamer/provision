@@ -6,8 +6,6 @@
     "d /var/lib/postgres/data 0755 root root -"
   ];
 
-  virtualisation.oci-containers.backend = "docker";
-  
   virtualisation.oci-containers.containers.postgres = {
     image = "postgres:latest";
     ports = [ 

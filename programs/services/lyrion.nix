@@ -8,8 +8,6 @@
     "d /var/lib/lyrion/playlists 0755 root root -"
   ];
 
-  virtualisation.oci-containers.backend = "docker";
-  
   virtualisation.oci-containers.containers.lyrion = {
     image = "lmscommunity/lyrionmusicserver:latest";
     ports = [ 

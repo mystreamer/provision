@@ -5,8 +5,6 @@
     file = ../../secrets/photoprismEnv.age;
   };
 
-  virtualisation.oci-containers.backend = "docker";
-  
   virtualisation.oci-containers.containers.photoprism = {
     image = "photoprism/photoprism:latest";
     ports = [ "0.0.0.0:2342:2342" ];
