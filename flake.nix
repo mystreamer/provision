@@ -12,6 +12,10 @@
     # agenix
     agenix.url = "github:ryantm/agenix";
 
+    # Coding agents (claude-code, orca, ...). Deliberately no `follows nixpkgs`:
+    # the binary cache only hits for the nixpkgs revision it was built with.
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     # VS Code Server support on NixOS
     vscode-server.url = "github:nix-community/nixos-vscode-server";
 
@@ -41,7 +45,7 @@
 
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, vscode-server, quick-toc, yummie-recipe-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew, homebrew-core, homebrew-cask, agenix, vscode-server, llm-agents, quick-toc, yummie-recipe-manager }:
   let
     lib = nixpkgs.lib;
     # lib = nixpkgs.lib.extend (self: super: {
@@ -60,7 +64,7 @@
         inherit system;
         # inherit inputs;
         specialArgs = {
-          inherit vscode-server;
+          inherit vscode-server llm-agents;
         };
         modules = [
           {

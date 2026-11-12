@@ -1,4 +1,4 @@
-{ pkgs, vscode-server, ... }:
+{ pkgs, vscode-server, llm-agents, ... }:
 
 # Config shared by all NixOS hosts (devnix, ephem).
 {
@@ -92,6 +92,8 @@
       experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "root" "dylan" ];
       connect-timeout = 30;
+      extra-substituters = [ "https://cache.numtide.com" ];
+      extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
     };
   };
 
@@ -124,8 +126,10 @@
     neovim
     mutagen
     silver-searcher # ag
+  ] ++ (with llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     claude-code
-  ];
+    orca
+  ]);
 
   # specific problem with nixpkgs-ranger (TODO: Also apply to devmac)
   # Overlays for nixpkgs
