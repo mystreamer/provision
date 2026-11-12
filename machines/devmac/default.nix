@@ -94,26 +94,12 @@
     useUserPackages = true;
     verbose = true;
     users.dylan = {
+      imports = [ ../../modules/home ];
       # this is internal compatibility configuration
       # for home-manager, don't change this!
       home.stateVersion = "23.05";
-      # Let home-manager install and manage itself.
-      programs.home-manager.enable = true;
-
-      programs.git = {
-        enable = true;
-        userName = "mystreamer";
-        userEmail = "me@dylanmassey.ch";
-        extraConfig = {
-          init.defaultBranch = "main";
-        };
-      };
 
       home.packages = with pkgs; [];
-
-      home.sessionVariables = {
-        EDITOR = "nvim";
-      };
     };
   };
 

@@ -38,39 +38,8 @@
   programs.java.enable = true;
 
   ### HOME MANAGER ###
-  home-manager.users.dylan = { pkgs, lib, inputs, config, ... }: {
-      imports = [
-        ../../programs/nvim
-        ../../programs/zsh
-        ../../programs/tmux
-      ];
-
-      # git config (TODO: deduplicate with mac setup)
-      programs.git = {
-        enable = true;
-        settings = {
-          user.name = "mystreamer";
-          user.email = "me@dylanmassey.ch";
-          init.defaultBranch = "main";
-        };
-      };
-
-      programs.direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-        enableZshIntegration = true;
-      };
-
-      programs.home-manager.enable = true;
+  home-manager.users.dylan = {
+      imports = [ ../../modules/home/nixos.nix ];
       home.stateVersion = "26.05";
-
-      home.packages = with pkgs; [
-        devenv
-      ];
-
-      # add to path
-      home.sessionVariables = {
-        PATH = "$PATH:$HOME/.local/bin"; 
-      };
   };
 }
