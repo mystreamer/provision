@@ -9,41 +9,20 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../modules/nixos-base.nix
+      ../../modules/desktop.nix
       ../../programs/services
     ];
 
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11";
+  # networking.nat.enable = true;
+  # networking.nat.internalInterfaces = ["ve-+"];  # All container interfaces
+  # networking.nat.externalInterface = "ens160";
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 3389 2342 3000 8045 ];
+  # Service ports (xrdp's 3389 is opened in modules/desktop.nix)
+  networking.firewall.allowedTCPPorts = [ 2342 3000 8045 ];
   networking.firewall.allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
+  # Do not change after install; see `man configuration.nix` / nixos.org options for stateVersion.
+  system.stateVersion = "25.05";
 
   ### SYSTEM-APPS ###
   environment.systemPackages = with pkgs; [
