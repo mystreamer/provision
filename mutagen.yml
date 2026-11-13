@@ -1,0 +1,28 @@
+# Sync this repo from my machine to each host's ~/provision.
+# Start: mutagen project start    Stop: mutagen project terminate
+sync:
+  defaults:
+    mode: one-way-replica
+    ignore:
+      vcs: true
+      paths:
+        - /repos
+        - /result
+        - /.direnv
+        - /.claude
+        - /mutagen.yml
+        - .DS_Store
+
+  devnix:
+    alpha: ./
+    beta: dylan@devnix:~/provision
+
+  ephem:
+    alpha: ./
+    beta: dylan@ephem:~/provision
+
+  # two-way, so a `nix flake update` on devmac flows back to my machine
+  devmac:
+    mode: two-way-safe
+    alpha: ./
+    beta: dylan@devmac:~/provision
