@@ -72,6 +72,35 @@ A simple example how this is done can be found [here](https://coffeeaddict.dev/t
 + If you build the installer-image with flake enabled, you also must enable it when issuing the `nixos-install` command.
     - This goes like this: `sudo nixos-install --option experimental-features "nix-command flakes"`
 
+## Submodules (quick-toc, yummie-recipe-manager)
+
+The two service repos are git submodules under `repos/`, so they can be edited from inside this repo. The flake inputs still point at GitHub, so **push everything before you build**, otherwise machines will build different code.
+
+Clone with submodules:
+```
+git clone --recurse-submodules git@github.com:mystreamer/provision.git
+# or, in an existing clone
+git submodule update --init --recursive
+```
+
+Submodules are checked out detached by default. Before editing one, switch it to its branch (`main` / `master`, set in `.gitmodules`):
+```
+git -C repos/quick-toc switch main
+git -C repos/yummie-recipe-manager switch master
+```
+
+Push after editing a submodule (the submodule first, then this repo):
+```
+git push --recurse-submodules=on-demand
+```
+
+Pull everything:
+```
+git pull --recurse-submodules
+```
+
+Then pick up the new service revision in the flake: `nix flake update quick-toc yummie-recipe-manager`.
+
 ## Adding your own service
 
 Add the repo of the service to `flake.nix`.
