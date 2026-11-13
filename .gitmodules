@@ -1,0 +1,8 @@
+[submodule "repos/quick-toc"]
+	path = repos/quick-toc
+	url = git@github.com:mystreamer/quick-toc.git
+	branch = main
+[submodule "repos/yummie-recipe-manager"]
+	path = repos/yummie-recipe-manager
+	url = git@github.com:mystreamer/yummie-recipe-manager.git
+	branch = master
