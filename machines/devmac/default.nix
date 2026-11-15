@@ -119,6 +119,10 @@
     # User owning the Homebrew prefix
     user = "dylan";
 
+    # Take over an existing /opt/homebrew (keeps installed packages).
+    # Only needed on the first activation of a machine that already has Homebrew.
+    autoMigrate = true;
+
     # Optional: Declarative tap management
     taps = {
       "homebrew/homebrew-core" = inputs.homebrew-core;
