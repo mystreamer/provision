@@ -11,11 +11,13 @@ sync:
         - /.direnv
         - /.claude
         - /mutagen.yml
+        - /mutagen.yml.lock
         - .DS_Store
 
-  devnix:
-    alpha: ./
-    beta: dylan@devnix:~/provision
+  # devnix is not set up at the moment
+  # devnix:
+  #   alpha: ./
+  #   beta: dylan@devnix:~/provision
 
   ephem:
     alpha: ./
