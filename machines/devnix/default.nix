@@ -14,7 +14,7 @@
 
 
   # Do not change after install; see `man configuration.nix` / nixos.org options for stateVersion.
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
 
   ### SYSTEM-APPS ###
   environment.systemPackages = with pkgs; [

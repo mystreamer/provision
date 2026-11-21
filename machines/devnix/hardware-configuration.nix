@@ -6,21 +6,26 @@
 {
   imports = [ ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "sr_mod" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "xhci_pci" "usbhid" "sr_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  # Disks are addressed by label, so this file works for any devnix VM whose
+  # partitions are labelled once after install:
+  #   sudo e2label /dev/sda2 nixos
+  #   sudo fatlabel /dev/sda1 BOOT
+  # (UUIDs of the first install, for reference:
+  #  / d82b4296-34b0-4543-9ada-66953f0f5454, /boot 3BAD-97B2)
+  fileSystems."/" =
+    { device = "/dev/disk/by-label/nixos";
+      fsType = "ext4";
+    };
 
   fileSystems."/boot" =
-    { device = "dev/sda1";
+    { device = "/dev/disk/by-label/BOOT";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
-    };
-  
-  fileSystems."/" =
-    { device = "/dev/sda2";
-      fsType = "ext4";
     };
 
   swapDevices = [ ];
@@ -30,7 +35,6 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s5.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   hardware.parallels.enable = true;

@@ -6,6 +6,7 @@ sync:
     ignore:
       vcs: true
       paths:
+        - /.git
         - /repos
         - /result
         - /.direnv
@@ -14,10 +15,9 @@ sync:
         - /mutagen.yml.lock
         - .DS_Store
 
-  # devnix is not set up at the moment
-  # devnix:
-  #   alpha: ./
-  #   beta: dylan@devnix:~/provision
+  devnix:
+    alpha: ./
+    beta: dylan@devnix:~/provision
 
   ephem:
     alpha: ./
