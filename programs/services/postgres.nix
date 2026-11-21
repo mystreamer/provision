@@ -7,7 +7,9 @@
   ];
 
   virtualisation.oci-containers.containers.postgres = {
-    image = "postgres:latest";
+    # Pinned to the major version of the existing data directory.
+    # A new major needs a dump and restore; do not use :latest.
+    image = "postgres:18";
     ports = [ 
       "0.0.0.0:5432:5432/tcp"
     ];

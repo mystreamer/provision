@@ -125,7 +125,7 @@
     ranger
     neovim
     mutagen
-    silver-searcher # ag
+    silver-searcher-ng # ag
   ] ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     claude-code
     orca
