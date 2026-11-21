@@ -52,13 +52,13 @@ And then rebuild your nix with `sudo nixos-rebuild switch
 
 <br>
 
-0. Label the partitions once, so `machines/devnix/hardware-configuration.nix` (which addresses disks by label, not UUID) works unchanged: `sudo e2label /dev/sda2 nixos` and `sudo fatlabel /dev/sda1 BOOT`. Adjust the device names if `lsblk` shows others.
-1. Get the repo onto the VM, either by Mutagen (see below) or `nix-shell -p git` and a clone of this repo.
-2. Set `system.stateVersion` in `machines/devnix/default.nix` to the version in `/etc/nixos/configuration.nix`.
-3. Build first: `nixos-rebuild build --flake ".#devnix"`
-4. Then `sudo nixos-rebuild boot --flake ".#devnix"` and reboot. (`boot` instead of `switch`, because a nixpkgs jump can change critical components such as the D-Bus implementation, which NixOS refuses to switch to live.)
+0. Label the partitions: `sudo e2label /dev/sda2 nixos` and `sudo fatlabel /dev/sda1 BOOT`.
+1. Get the repo onto the VM (Mutagen, see below).
+2. Set `system.stateVersion` in `machines/devnix/default.nix` as in `/etc/nixos/configuration.nix`.
+3. `nixos-rebuild build --flake ".#devnix"`
+4. `sudo nixos-rebuild boot --flake ".#devnix"`, then reboot.
 
-The VM needs at least 64 GB of disk. If a build fills it, `sudo nix-collect-garbage` frees what no generation uses.
+Use at least 64 GB of disk.
 
 ## Bare-metal provisioning
 
@@ -103,23 +103,21 @@ Then pick up the new service revision in the flake: `nix flake update quick-toc 
 
 ## Syncing with Mutagen
 
-`mutagen.yml` mirrors this folder to `~/provision` on each host: one-way for the NixOS hosts, two-way for `devmac`, so a `nix flake update` run there (this Mac has no Nix) comes back as a changed `flake.lock`.
+`mutagen.yml` mirrors this folder to `~/provision` on each host (one-way; two-way for `devmac`, which has Nix, so `flake.lock` updates come back).
 
 ```
-mutagen project start       # create the sessions
-mutagen project terminate   # remove them
+mutagen project start
+mutagen project terminate
 ```
 
-- Do not edit files on a one-way host. The next sync overwrites them.
-- A host's `~/provision` must not have its own `.git`. Nix reads a git checkout as "tracked files only" and would ignore the synced, untracked files. Move an old clone out of the folder first (for example to `~/provision-old.git`), never rename it inside, because the mirror deletes extra files.
-- The ignore list covers `.git` (also the file a git worktree uses), `repos/`, `result`, `.direnv` and `mutagen.yml` itself.
-- Sessions are named per host. A second project with the same session names cannot run next to a running one.
+- Don't edit files on a host; the next sync overwrites them.
+- `~/provision` on a host must not contain a `.git`.
 
 ## Updating a host
 
-- Build before you switch: `nixos-rebuild build --flake .#<host>`, then `test`, `switch` or `boot`.
-- Nix does not update container images. Images are pinned in `programs/services/` (Postgres to its major version, Forgejo to `13`); `:latest` ones only change when you pull and restart them. A new Postgres major needs a dump and restore.
-- The store grows with every generation and failed build. `sudo nix-collect-garbage` reclaims it.
+- `nixos-rebuild build --flake .#<host>` first, then `test`, `switch` or `boot`.
+- Container images are not updated by Nix: pull, then restart the service.
+- `sudo nix-collect-garbage` frees disk.
 
 ## Adding your own service
 
