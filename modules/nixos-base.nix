@@ -95,6 +95,13 @@
       extra-substituters = [ "https://cache.numtide.com" ];
       extra-trusted-public-keys = [ "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g=" ];
     };
+
+    # Weekly cleanup, keeps the last two weeks of generations for rollback
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
   };
 
   environment.etc."inputrc".text = ''
